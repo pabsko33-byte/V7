@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>FEIS – Student Market Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- HEADER -->
+    <header class="top">
+      <div class="top-inner">
+        <div class="brand">
+          <div class="brand-logo">FEIS</div>
+          <div class="brand-text">
+            <span class="brand-name">Finance &amp; Economic Insight Society</span>
+            <span class="brand-tag">Student Market Studio</span>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <button class="nav-link" data-scroll="#hero">Accueil</button>
+          <button class="nav-link" data-scroll="#markets">Marchés</button>
+          <button class="nav-link" data-scroll="#chat">Chat débutant</button>
+          <button class="nav-link" data-scroll="#workshops">Workshops</button>
+          <button class="nav-link" data-scroll="#club">Le club</button>
+          <button class="nav-link" data-scroll="#newsletter">Newsletter</button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section id="hero" class="section hero reveal">
+        <div class="section-inner hero-layout">
+          <div class="hero-left">
+            <p class="hero-kicker">Studio marchés • FEIS</p>
+            <h1 class="hero-title">
+              Former des réflexes de lecture<br />
+              sur les marchés, pas des réflexes automatiques.
+            </h1>
+            <p class="hero-sub">
+              Indices, politique économique, risque : on structure tout comme un desk pro,
+              avec un langage clair pour étudiants.
+            </p>
+
+            <div class="hero-tags">
+              <span>Indices actions &amp; ETF</span>
+              <span>Macro &amp; banques centrales</span>
+              <span>Crypto labo encadrée</span>
+              <span>Workshops &amp; conférences</span>
+            </div>
+
+            <div class="hero-actions">
+              <button class="btn primary" data-scroll="#markets">Voir le board marchés</button>
+              <button class="btn ghost" data-scroll="#chat">Parler à l’assistant débutant</button>
+            </div>
+          </div>
+
+          <div class="hero-right">
+            <div class="panel panel-hero">
+              <div class="panel-header">
+                <div>
+                  <p class="panel-kicker">Vue rapide</p>
+                  <p class="panel-title">Indices &amp; crypto suivis</p>
+                </div>
+                <div class="panel-status">
+                  <span class="dot-online"></span>
+                  <span>Flux TradingView</span>
+                </div>
+              </div>
+
+              <!-- Widget TradingView : données réelles -->
+              <div class="tv-block">
+                <div class="tradingview-widget-container">
+                  <div id="tradingview_widget"></div>
+                  <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+{
+  "colorTheme": "dark",
+  "dateRange": "1M",
+  "showChart": true,
+  "locale": "fr",
+  "width": "100%",
+  "height": "260",
+  "showSymbolLogo": true,
+  "isTransparent": true,
+  "tabs": [
+    {
+      "title": "Indices",
+      "symbols": [
+        { "s": "INDEX:CAC40", "d": "CAC 40" },
+        { "s": "SP:SPX", "d": "S&P 500" },
+        { "s": "NASDAQ:NDX", "d": "NASDAQ 100" },
+        { "s": "AMEX:URTH", "d": "MSCI World (ETF)" }
+      ]
+    },
+    {
+      "title": "Crypto",
+      "symbols": [
+        { "s": "CRYPTO:BTCUSD", "d": "Bitcoin" },
+        { "s": "CRYPTO:ETHUSD", "d": "Ethereum" }
+      ]
+    }
+  ]
+}
+                  </script>
+                </div>
+              </div>
+
+              <p class="panel-note">
+                Widget TradingView intégré : le code FEIS se contente d’orchestrer la lecture.
+                Plus tard, un backend pourra compléter avec nos propres flux.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MARCHÉS -->
+      <section id="markets" class="section reveal">
+        <div class="section-inner">
+          <div class="section-header">
+            <p class="section-kicker">Board marchés</p>
+            <h2 class="section-title">Vue synthétique indices &amp; ETF</h2>
+            <p class="section-sub">
+              Filtre par zone, clic sur un actif, mini-graph et lecture FEIS à droite.
+              La structure est prête pour brancher une API de données prix.
+            </p>
+          </div>
+
+          <div class="markets-layout">
+            <div class="panel">
+              <div class="panel-header">
+                <p class="panel-title">Univers suivi</p>
+                <div class="filters">
+                  <button class="filter-btn active" data-filter="all">Tous</button>
+                  <button class="filter-btn" data-filter="equity">Actions / ETF</button>
+                  <button class="filter-btn" data-filter="crypto">Crypto labo</button>
+                </div>
+              </div>
+
+              <div class="table-head">
+                <span>Actif</span>
+                <span>Cours (maquette)</span>
+                <span>Var. jour</span>
+              </div>
+              <div id="markets-table" class="table-body">
+                <!-- lignes créées en JS -->
+              </div>
+            </div>
+
+            <div class="panel panel-chart">
+              <div class="panel-header">
+                <div>
+                  <p class="panel-kicker">Focus actif</p>
+                  <p class="panel-title" id="chart-title">Sélectionne un actif</p>
+                </div>
+                <span class="chip" id="chart-ticker"></span>
+              </div>
+
+              <div class="chart-wrapper">
+                <div id="chart-canvas" class="chart-canvas">
+                  <!-- barres créées en JS -->
+                </div>
+              </div>
+
+              <div class="chart-meta">
+                <div>
+                  <p class="chart-label">Lecture FEIS</p>
+                  <p id="chart-comment" class="chart-comment">
+                    Clique sur un actif du board pour voir une trajectoire pédagogique simulée.
+                  </p>
+                </div>
+                <div class="chart-tags" id="chart-tags"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHAT DÉBUTANT -->
+      <section id="chat" class="section reveal">
+        <div class="section-inner chat-layout">
+          <div class="section-header">
+            <p class="section-kicker">Assistant débutant</p>
+            <h2 class="section-title">Un bot pour tes premières questions</h2>
+            <p class="section-sub">
+              Logique simple : tu poses une question courte, l’assistant répond avec une grille de lecture
+              (livret, ETF, risque, crypto, horizon...). Ce n’est pas un conseil, juste une pédagogie cadrée.
+            </p>
+          </div>
+
+          <div class="chat-grid">
+            <div class="panel panel-chat">
+              <div class="chat-log" id="chat-log">
+                <div class="chat-message bot">
+                  <div class="chat-bubble">
+                    Bonjour, je suis l’assistant FEIS. Pose-moi une question simple
+                    (ex : <em>“livret ou ETF ?”</em>, <em>“combien mettre en crypto ?”</em>).
+                  </div>
+                </div>
+              </div>
+
+              <form id="chat-form" class="chat-form">
+                <input
+                  id="chat-input"
+                  type="text"
+                  placeholder="Ex : “Pourquoi un ETF monde est différent d’un livret ?”"
+                  autocomplete="off"
+                />
+                <button type="submit" class="btn primary">Envoyer</button>
+              </form>
+            </div>
+
+            <div class="panel panel-faq">
+              <h3 class="faq-title">Questions fréquentes</h3>
+              <div class="faq-chips">
+                <button class="faq-chip" data-faq="livret">Livret vs ETF long terme</button>
+                <button class="faq-chip" data-faq="risque">Gérer le risque sans paniquer</button>
+                <button class="faq-chip" data-faq="crypto">Place de la crypto</button>
+                <button class="faq-chip" data-faq="horizon">Horizon de placement</button>
+                <button class="faq-chip" data-faq="etf">ETF monde, c’est quoi ?</button>
+              </div>
+              <div class="faq-answer" id="faq-answer">
+                Clique sur une question pour voir la réponse FEIS structurée.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WORKSHOPS -->
+      <section id="workshops" class="section reveal">
+        <div class="section-inner">
+          <div class="section-header">
+            <p class="section-kicker">Workshops &amp; conférences</p>
+            <h2 class="section-title">Des formats concrets, chiffrés</h2>
+          </div>
+
+          <div class="workshop-carousel" id="workshop-carousel">
+            <!-- cartes remplies en JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- LE CLUB -->
+      <section id="club" class="section reveal">
+        <div class="section-inner club-layout">
+          <div class="section-header">
+            <p class="section-kicker">Le club</p>
+            <h2 class="section-title">FEIS en deux blocs</h2>
+          </div>
+
+          <div class="club-grid">
+            <article class="card">
+              <h3>Profil</h3>
+              <p>
+                Trois étudiants basés à Bordeaux, issus de formations en sciences économiques.
+                Objectif : construire une culture d’investissement structurée pour étudiants,
+                avant tout choix d’allocation.
+              </p>
+            </article>
+
+            <article class="card">
+              <h3>Ce qu’on fait</h3>
+              <ul>
+                <li>Sessions “desk marchés” : indices, courbes, macro.</li>
+                <li>Workshops chiffrés : allocation simple, ETF, gestion du risque.</li>
+                <li>Tables rondes avec intervenants (marchés, économie, politique monétaire).</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>Cadre</h3>
+              <p>
+                FEIS reste un laboratoire étudiant : pas de produits vendus,
+                pas de promesse de performance. On travaille uniquement la compréhension
+                et le langage professionnel.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- NEWSLETTER -->
+      <section id="newsletter" class="section reveal">
+        <div class="section-inner newsletter-layout">
+          <div class="section-header">
+            <p class="section-kicker">Newsletter</p>
+            <h2 class="section-title">Un mémo marchés &amp; macro pour étudiants</h2>
+            <p class="section-sub">
+              Une page A4 virtuelle : indices clés, décisions de banques centrales,
+              un ou deux graphiques, quelques idées de lecture. Pensée comme un mémo,
+              pas comme un signal de trading.
+            </p>
+          </div>
+
+          <form class="newsletter-form">
+            <label class="field">
+              <span>Adresse e-mail</span>
+              <input type="email" placeholder="prenom.nom@example.com" />
+            </label>
+            <button class="btn primary" type="button" disabled>Inscription bientôt ouverte</button>
+            <p class="newsletter-note">
+              Cette section est une maquette. L’inscription réelle passera par un backend
+              (API d’e-mailing) quand le club sera lancé.
+            </p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <p>FEIS – Finance &amp; Economic Insight Society.</p>
+        <p>Site pédagogique étudiant. Aucune recommandation personnalisée d’investissement.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
